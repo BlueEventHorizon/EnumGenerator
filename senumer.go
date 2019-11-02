@@ -14,7 +14,7 @@ func main() {
 		firstFlag = "./"
 	}
 	if secondFlag == "" {
-		secondFlag = "LocalizableStrings.swift"
+		secondFlag = "LocalizableStrings"
 	}
 
 	fmt.Printf("import Foundation\n\n")
@@ -35,7 +35,7 @@ func main() {
 
 func convertToCamelCase(text string) string {
 	var keyword string
-	var foundUnderScore bool = false
+	var foundUnderScore = false
 	for i := 0; i < len(text); i++ {
 		letter := text[i : i+1]
 		if letter == "_" {
