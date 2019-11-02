@@ -4,11 +4,9 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
-
-	"./filer"
 )
 
-func Scandir(dir string, texts *[]string) {
+func Scandir(dir string, analyzer func(string, *[]string), texts *[]string) {
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		panic(err)
@@ -26,11 +24,9 @@ func Scandir(dir string, texts *[]string) {
 				//fmt.Printf("// ---------------------------------------- xcworkspace\n")
 				continue
 			}
-
 			if name == "build" {
 				continue
 			}
-
 			// Carthageディレクトリはスキャンしない
 			if name == "Carthage" {
 				//fmt.Printf("// ---------------------------------------- Carthage\n")
@@ -41,12 +37,10 @@ func Scandir(dir string, texts *[]string) {
 				//fmt.Printf("// ---------------------------------------- Pods\n")
 				continue
 			}
-			Scandir(filepath.Join(path), texts)
+			Scandir(filepath.Join(path), analyzer, texts)
 			continue
 		}
-		// xxx.strings のみを解析
-		if strings.HasSuffix(path, ".strings") {
-			filer.Analyzer(path, texts)
-		}
+
+		analyzer(path, texts)
 	}
 }
