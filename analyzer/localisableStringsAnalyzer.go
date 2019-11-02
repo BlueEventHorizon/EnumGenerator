@@ -1,4 +1,4 @@
-package filer
+package analyzer
 
 import (
 	"bufio"
@@ -7,9 +7,12 @@ import (
 	"strings"
 )
 
-func Analyzer(path string, texts *[]string) {
+func LocalisableStringsAnalyzer(path string, texts *[]string) {
 
-	//var counter int = 0
+	// xxx.strings のみを解析
+	if !strings.HasSuffix(path, ".strings") {
+		return
+	}
 
 	// ファイルをOpenする
 	file, err := os.Open(path)
@@ -53,11 +56,6 @@ func Analyzer(path string, texts *[]string) {
 			if result == false {
 				*texts = append(*texts, text)
 			}
-
-			// 空白はアンダースコアに置換
-			//keyword := strings.Replace(text, " ", "_", -1)
-			// case
-			//fmt.Printf("    case %s = \"%s\",\n", keyword, text)
 		}
 	}
 }
