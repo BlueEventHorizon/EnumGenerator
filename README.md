@@ -1,4 +1,4 @@
-# Localenum
+# Senumer
 
 
 
@@ -13,14 +13,22 @@ This command aims to replace RSwift string definitions with simpler ones.
 ## Build 
 
 ```
-$ go build localenum.go scanner.go
+$ go build senumer.go scanner.go
 ```
 
 ## Usage
 
 ```
-$ localenum top_directory_for_scan enum_name > output_directory
+$ senumer "top directory for scan" "enum name" > "output faile name"
 ```
+
+if you don't add any option as below. senumer will automatically choose current directory as top directory for scan, and "LocalizableStrings" as enum name.
+
+```
+$ senumer > "output_directory"
+```
+
+
 
 
 
