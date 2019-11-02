@@ -4,23 +4,26 @@ import (
 	"flag"
 	"fmt"
 	"strings"
+
+	"./analyzer"
 )
 
 func main() {
 	flag.Parse()
-	firstFlag := flag.Arg(0)
-	secondFlag := flag.Arg(1)
-	if firstFlag == "" {
-		firstFlag = "./"
+	topDir := flag.Arg(0)
+	enumName := flag.Arg(1)
+	if topDir == "" {
+		topDir = "./"
 	}
-	if secondFlag == "" {
-		secondFlag = "LocalizableStrings"
+	if enumName == "" {
+		enumName = "LocalizableStrings"
 	}
 
-	fmt.Printf("import Foundation\n\n")
-	fmt.Printf("enum %s: String {\n", secondFlag)
+	output(fmt.Sprintf("import Foundation\n\n"))
+	output(fmt.Sprintf("enum %s: String {\n", enumName))
+
 	texts := make([]string, 100, 500)
-	Scandir(firstFlag, &texts)
+	Scandir(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
 	for _, text := range texts {
 		if text == "" {
 			continue
@@ -28,9 +31,13 @@ func main() {
 		// 空白はアンダースコアに置換
 		keyword := strings.Replace(text, " ", "_", -1)
 		keyword = convertToCamelCase(keyword)
-		fmt.Printf("    case %s = \"%s\",\n", keyword, text)
+		output(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
 	}
-	fmt.Printf("}\n")
+	output(fmt.Sprintf("}\n"))
+}
+
+func output(text string) {
+	fmt.Print(text)
 }
 
 func convertToCamelCase(text string) string {
