@@ -34,6 +34,9 @@ func main() {
 		output(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
 	}
 	output(fmt.Sprintf("}\n"))
+
+	assets := make([]string, 100, 500)
+	Scandir(topDir, analyzer.AssetAnalyzer, &assets)
 }
 
 func output(text string) {

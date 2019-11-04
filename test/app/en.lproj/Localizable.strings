@@ -1,0 +1,12 @@
+/*
+  Localizable.strings
+  EnumGenerator
+
+  Created by Katsuhiko Terada on 2019/11/04.
+  Copyright (c) 2019 Katsuhiko Terada. All rights reserved.
+*/
+
+"clode_window" = "Clode";
+"delete something" = "Delete;
+"cancel" = "Cancel";
+"OK" = "OK";
