@@ -9,7 +9,7 @@ import (
 
 func AssetAnalyzer(path string, texts *[]string) {
 	// xxx.strings のみを解析
-	if !strings.HasSuffix(path, ".strings") {
+	if !strings.Contains(path, ".xcassets") {
 		return
 	}
 
