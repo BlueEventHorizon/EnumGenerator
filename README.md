@@ -1,4 +1,4 @@
-# Senumer
+# EnumGenerator
 
 
 
@@ -13,24 +13,21 @@ This command aims to replace RSwift string definitions with simpler ones.
 ## Build 
 
 ```
-$ go build senumer.go scanner.go
+$ go build generator.go scanner.go
 ```
 
 ## Usage
 
 ```
-$ senumer "top directory for scan" "enum name" > "output faile name"
+$ generator "top directory for scan" "enum name" > "output faile name"
 ```
 
 if you don't add any option as below. senumer will automatically choose current directory as top directory for scan, and "LocalizableStrings" as enum name.
 
 ```
-$ senumer > "output_directory"
+$ generator > "output_directory"
 ```
 
 
 
-
-
-## Cathage
 
