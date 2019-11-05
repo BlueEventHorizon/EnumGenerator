@@ -23,7 +23,7 @@ func main() {
 	output(fmt.Sprintf("enum %s: String {\n", enumName))
 
 	texts := make([]string, 100, 500)
-	Scandir(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
+	ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
 	for _, text := range texts {
 		if text == "" {
 			continue
@@ -36,7 +36,7 @@ func main() {
 	output(fmt.Sprintf("}\n"))
 
 	assets := make([]string, 100, 500)
-	Scandir(topDir, analyzer.AssetAnalyzer, &assets)
+	ScanDir(topDir, analyzer.AssetAnalyzer, &assets)
 }
 
 func output(text string) {

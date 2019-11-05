@@ -3,13 +3,40 @@ package analyzer
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
 func AssetAnalyzer(path string, texts *[]string) {
+	// xxx.xcassets のみを解析
+	if !strings.HasSuffix(path, ".xcassets") {
+		return
+	}
+	scanAssetDir(path, assetAnalyzer, texts)
+}
+
+func scanAssetDir(dir string, analyzer func(string, *[]string), texts *[]string) {
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, file := range files {
+		name := file.Name()
+		path := filepath.Join(dir, name)
+		if file.IsDir() {
+			//analyzer(path, texts)
+			scanAssetDir(filepath.Join(path), analyzer, texts)
+			continue
+		}
+	}
+}
+
+func assetAnalyzer(path string, texts *[]string) {
 	// xxx.strings のみを解析
-	if !strings.Contains(path, ".xcassets") {
+	if !strings.HasSuffix(path, ".xcassets") {
 		return
 	}
 
