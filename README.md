@@ -6,7 +6,7 @@
 
 This is a Git repository for commands that convert `Localizable.strings` files, which are multilingual files used in Xcode, into enum definitions. The enum definition is output in swift syntax.
 
-This command aims to replace RSwift string definitions with simpler ones.
+This command aims to replace R.Swift string definitions with simpler ones.
 
 
 
