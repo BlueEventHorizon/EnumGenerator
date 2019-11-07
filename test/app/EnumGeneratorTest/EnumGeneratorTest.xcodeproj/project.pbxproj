@@ -15,6 +15,7 @@
 		5267FB3423706A52003C46E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5267FB3223706A52003C46E3 /* LaunchScreen.storyboard */; };
 		5267FB3F23706A52003C46E3 /* EnumGeneratorTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5267FB3E23706A52003C46E3 /* EnumGeneratorTestTests.swift */; };
 		5267FB4B23706AAF003C46E3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5267FB4D23706AAF003C46E3 /* Localizable.strings */; };
+		76D2BD682373FCC1009C3921 /* AppResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2BD672373FCC1009C3921 /* AppResource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		5267FB3E23706A52003C46E3 /* EnumGeneratorTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumGeneratorTestTests.swift; sourceTree = "<group>"; };
 		5267FB4023706A52003C46E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5267FB4C23706AAF003C46E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		76D2BD672373FCC1009C3921 /* AppResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppResource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,9 +86,10 @@
 				5267FB2723706A4F003C46E3 /* AppDelegate.swift */,
 				5267FB2923706A4F003C46E3 /* SceneDelegate.swift */,
 				5267FB2B23706A4F003C46E3 /* ViewController.swift */,
-				5267FB4D23706AAF003C46E3 /* Localizable.strings */,
 				5267FB2D23706A4F003C46E3 /* Main.storyboard */,
 				5267FB3023706A52003C46E3 /* Assets.xcassets */,
+				5267FB4D23706AAF003C46E3 /* Localizable.strings */,
+				76D2BD672373FCC1009C3921 /* AppResource.swift */,
 				5267FB3223706A52003C46E3 /* LaunchScreen.storyboard */,
 				5267FB3523706A52003C46E3 /* Info.plist */,
 			);
@@ -205,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5267FB2C23706A4F003C46E3 /* ViewController.swift in Sources */,
+				76D2BD682373FCC1009C3921 /* AppResource.swift in Sources */,
 				5267FB2823706A4F003C46E3 /* AppDelegate.swift in Sources */,
 				5267FB2A23706A4F003C46E3 /* SceneDelegate.swift in Sources */,
 			);
