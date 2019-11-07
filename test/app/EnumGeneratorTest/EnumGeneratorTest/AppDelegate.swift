@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  EnumGeneratorTest
 //
-//  Created by Katsuhiko Terada on 2019/11/04.
-//  Copyright © 2019 Katsuhiko Terada. All rights reserved.
+//  Created by k2moons on 2019/11/04.
+//  Copyright © 2019 k2moons. All rights reserved.
 //
 
 import UIKit

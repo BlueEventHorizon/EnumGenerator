@@ -2,8 +2,8 @@
 //  AppResource.swift
 //  EnumGeneratorTest
 //
-//  Created by 寺田 克彦 on 2019/11/07.
-//  Copyright © 2019 Katsuhiko Terada. All rights reserved.
+//  Created by k2moons on 2019/11/07.
+//  Copyright © 2019 k2moons. All rights reserved.
 //
 
 // https://developer.apple.com/library/archive/documentation/Xcode/Reference/xcode_ref-Asset_Catalog_Format/index.html

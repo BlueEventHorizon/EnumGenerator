@@ -2,8 +2,8 @@
 //  ColorResource.swift
 //  EnumGeneratorTest
 //
-//  Created by 寺田 克彦 on 2019/11/07.
-//  Copyright © 2019 Katsuhiko Terada. All rights reserved.
+//  Created by k2moons on 2019/11/07.
+//  Copyright © 2019 k2moons. All rights reserved.
 //
 
 import UIKit.UIColor
