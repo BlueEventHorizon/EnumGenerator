@@ -23,10 +23,21 @@ func scanAssetDir(dir string, analyzer func(string, *[]string), texts *[]string)
 		panic(err)
 	}
 
+	println(dir)
+
 	for _, file := range files {
 		name := file.Name()
 		path := filepath.Join(dir, name)
 		if file.IsDir() {
+			if strings.HasSuffix(name, ".imageset") {
+				println(name)
+				continue
+			}
+			if strings.HasSuffix(name, ".colorset") {
+				println(name)
+				continue
+			}
+
 			//analyzer(path, texts)
 			scanAssetDir(filepath.Join(path), analyzer, texts)
 			continue
