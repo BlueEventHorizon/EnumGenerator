@@ -10,22 +10,31 @@ import (
 )
 
 func main() {
+
+	// flagの使い方
 	// https://qiita.com/Yaruki00/items/7edc04720a24e71abfa2
 
 	var (
-		topDir      = flag.String("dir", "./", "dir to scan")
-		enumName    = flag.String("string", "LocalizableStrings", "enum name for Localizable.strings")
-		enableImage = flag.Bool("image", true, "enable scan for image assets")
-		enableColor = flag.Bool("color", true, "enable scan for color assets")
+		topDir      string
+		enumName    string
+		enableImage bool
+		enableColor bool
+		//	enableImage = flag.Bool("image", true, "enable scan for image assets")
+		//	enableColor = flag.Bool("color", true, "enable scan for color assets")
 	)
 
-	flag.Parse()
+	flag.StringVar(&topDir, "dir", "./", "dir to scan")
+	flag.StringVar(&enumName, "string", "LocalizableStrings", "enum name for Localizable.strings")
+	flag.BoolVar(&enableImage, "image", true, "enable scan for image assets")
+	flag.BoolVar(&enableColor, "color", true, "enable scan for color assets")
+
+	//flag.Parse()
 
 	output("import Foundation\n\n")
-	output(fmt.Sprintf("enum %s: String {\n", *enumName))
+	output(fmt.Sprintf("enum %s: String {\n", enumName))
 
 	texts := make([]string, 100, 500)
-	ScanFile(*topDir, analyzer.LocalisableStringsAnalyzer, &texts)
+	ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
 	for _, text := range texts {
 		if text == "" {
 			continue
@@ -42,9 +51,9 @@ func main() {
 	}
 	output("}\n")
 
-	if *enableImage {
+	if enableImage {
 		imageAssets := make([]string, 100, 500)
-		ScanDir(*topDir, analyzer.ImageAssetAnalyzer, &imageAssets)
+		ScanDir(topDir, analyzer.ImageAssetAnalyzer, &imageAssets)
 		for _, asset := range imageAssets {
 			if asset == "" {
 				continue
@@ -53,9 +62,9 @@ func main() {
 		}
 	}
 
-	if *enableColor {
+	if enableColor {
 		colorAssets := make([]string, 100, 500)
-		ScanDir(*topDir, analyzer.ColorAssetAnalyzer, &colorAssets)
+		ScanDir(topDir, analyzer.ColorAssetAnalyzer, &colorAssets)
 		for _, asset := range colorAssets {
 			if asset == "" {
 				continue
