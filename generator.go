@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"./analyzer"
+	"./env"
 )
 
 func main() {
@@ -35,12 +36,43 @@ func main() {
 	}
 	output(fmt.Sprintf("}\n"))
 
-	assets := make([]string, 100, 500)
-	ScanDir(topDir, analyzer.AssetAnalyzer, &assets)
+	imageAssets := make([]string, 100, 500)
+	ScanDir(topDir, analyzer.ImageAssetAnalyzer, &imageAssets)
+	for _, asset := range imageAssets {
+		if asset == "" {
+			continue
+		}
+		output(fmt.Sprintf("imageAssets = \"%s\",\n", asset))
+	}
+
+	colorAssets := make([]string, 100, 500)
+	ScanDir(topDir, analyzer.ColorAssetAnalyzer, &colorAssets)
+	for _, asset := range colorAssets {
+		if asset == "" {
+			continue
+		}
+		output(fmt.Sprintf("colorAssets = \"%s\",\n", asset))
+	}
+}
+
+func open(text string) {
+	if env.OUTPUT_FILE {
+
+	}
 }
 
 func output(text string) {
-	fmt.Print(text)
+	if env.OUTPUT_FILE {
+
+	} else {
+		fmt.Print(text)
+	}
+}
+
+func close(text string) {
+	if env.OUTPUT_FILE {
+
+	}
 }
 
 func convertToCamelCase(text string) string {
