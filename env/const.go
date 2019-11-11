@@ -1,3 +1,3 @@
 package env
 
-const OUTPUT_FILE = false
+//const OUTPUT_FILE = true
