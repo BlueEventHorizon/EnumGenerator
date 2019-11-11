@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 
 	"./analyzer"
-	"./env"
 )
 
 func main() {
@@ -15,82 +15,72 @@ func main() {
 	// https://qiita.com/Yaruki00/items/7edc04720a24e71abfa2
 
 	var (
-		topDir      string
-		enumName    string
-		enableImage bool
-		enableColor bool
+		topDir     string
+		enumString string
+		enumImage  string
+		enumColor  string
 		//	enableImage = flag.Bool("image", true, "enable scan for image assets")
 		//	enableColor = flag.Bool("color", true, "enable scan for color assets")
 	)
 
 	flag.StringVar(&topDir, "dir", "./", "dir to scan")
-	flag.StringVar(&enumName, "string", "LocalizableStrings", "enum name for Localizable.strings")
-	flag.BoolVar(&enableImage, "image", true, "enable scan for image assets")
-	flag.BoolVar(&enableColor, "color", true, "enable scan for color assets")
+	flag.StringVar(&enumString, "string", "LocalizableStrings", "enum name for Localizable.strings. If blank, disable output")
+	flag.StringVar(&enumImage, "image", "AppResource.ImageResource", "enum name for Image Assets. If blank, disable output")
+	flag.StringVar(&enumColor, "color", "AppResource.ColorResource", "enum name for Color Assets. If blank, disable output")
+	flag.Parse()
 
-	//flag.Parse()
+	if enumString != "" {
+		stringOutput := new(Output)
+		stringOutput.Open(fmt.Sprintf("%s.swift", enumString))
+		stringOutput.Print("import Foundation\n\n")
+		stringOutput.Print(fmt.Sprintf("enum %s: String {\n", enumString))
 
-	output("import Foundation\n\n")
-	output(fmt.Sprintf("enum %s: String {\n", enumName))
+		texts := make([]string, 100, 500)
+		ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
+		for _, text := range texts {
+			if text == "" {
+				continue
+			}
+			// 空白はアンダースコアに置換
+			keyword := strings.Replace(text, " ", "_", -1)
+			// ピリオドはアンダースコアに置換
+			keyword = strings.Replace(keyword, " ", ".", -1)
+			// ハイフンはアンダースコアに置換
+			keyword = strings.Replace(keyword, " ", "-", -1)
 
-	texts := make([]string, 100, 500)
-	ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
-	for _, text := range texts {
-		if text == "" {
-			continue
+			keyword = convertToCamelCase(keyword)
+			stringOutput.Print(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
 		}
-		// 空白はアンダースコアに置換
-		keyword := strings.Replace(text, " ", "_", -1)
-		// ピリオドはアンダースコアに置換
-		keyword = strings.Replace(keyword, " ", ".", -1)
-		// ハイフンはアンダースコアに置換
-		keyword = strings.Replace(keyword, " ", "-", -1)
-
-		keyword = convertToCamelCase(keyword)
-		output(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
+		stringOutput.Print("}\n")
+		stringOutput.Close()
 	}
-	output("}\n")
 
-	if enableImage {
-		imageAssets := make([]string, 100, 500)
+	if enumImage != "" {
+		imageOutput := new(Output)
+		imageOutput.Open(enumImage)
+		imageAssets := make([]string, 0, 500)
 		ScanDir(topDir, analyzer.ImageAssetAnalyzer, &imageAssets)
 		for _, asset := range imageAssets {
 			if asset == "" {
 				continue
 			}
-			output(fmt.Sprintf("imageAssets = \"%s\",\n", asset))
+			imageOutput.Print(fmt.Sprintf("imageAssets = \"%s\",\n", asset))
 		}
+		imageOutput.Close()
 	}
 
-	if enableColor {
-		colorAssets := make([]string, 100, 500)
+	if enumColor != "" {
+		colorOutput := new(Output)
+		colorOutput.Open(enumColor)
+		colorAssets := make([]string, 0, 500)
 		ScanDir(topDir, analyzer.ColorAssetAnalyzer, &colorAssets)
 		for _, asset := range colorAssets {
 			if asset == "" {
 				continue
 			}
-			output(fmt.Sprintf("colorAssets = \"%s\",\n", asset))
+			colorOutput.Print(fmt.Sprintf("colorAssets = \"%s\",\n", asset))
 		}
-	}
-}
-
-func open(text string) {
-	if env.OUTPUT_FILE {
-
-	}
-}
-
-func output(text string) {
-	if env.OUTPUT_FILE {
-
-	} else {
-		fmt.Print(text)
-	}
-}
-
-func close(text string) {
-	if env.OUTPUT_FILE {
-
+		colorOutput.Close()
 	}
 }
 
@@ -112,4 +102,38 @@ func convertToCamelCase(text string) string {
 	}
 
 	return keyword
+}
+
+type Output struct{}
+
+var fd *os.File
+var err error
+
+func (t Output) Open(path string) {
+
+	if path == "" {
+		return
+	}
+
+	fd, err = os.Create(path)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fd.Seek(0, 0)
+
+}
+
+func (t Output) Print(text string) {
+	if fd != nil {
+		fd.WriteString(text)
+	} else {
+		fmt.Print(text)
+	}
+}
+
+func (t Output) Close() {
+	if fd == nil {
+		return
+	}
+	fd.Close()
 }
