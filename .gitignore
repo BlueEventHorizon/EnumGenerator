@@ -48,3 +48,6 @@ Pods
 #
 infer-out/
 generator
+AppResource.ColorResource
+AppResource.ImageResource
+LocalizableStrings.swift
