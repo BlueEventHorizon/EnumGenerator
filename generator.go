@@ -10,48 +10,58 @@ import (
 )
 
 func main() {
-	flag.Parse()
-	topDir := flag.Arg(0)
-	enumName := flag.Arg(1)
-	if topDir == "" {
-		topDir = "./"
-	}
-	if enumName == "" {
-		enumName = "LocalizableStrings"
-	}
+	// https://qiita.com/Yaruki00/items/7edc04720a24e71abfa2
 
-	output(fmt.Sprintf("import Foundation\n\n"))
-	output(fmt.Sprintf("enum %s: String {\n", enumName))
+	var (
+		topDir      = flag.String("dir", "./", "dir to scan")
+		enumName    = flag.String("string", "LocalizableStrings", "enum name for Localizable.strings")
+		enableImage = flag.Bool("image", true, "enable scan for image assets")
+		enableColor = flag.Bool("color", true, "enable scan for color assets")
+	)
+
+	flag.Parse()
+
+	output("import Foundation\n\n")
+	output(fmt.Sprintf("enum %s: String {\n", *enumName))
 
 	texts := make([]string, 100, 500)
-	ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
+	ScanFile(*topDir, analyzer.LocalisableStringsAnalyzer, &texts)
 	for _, text := range texts {
 		if text == "" {
 			continue
 		}
 		// 空白はアンダースコアに置換
 		keyword := strings.Replace(text, " ", "_", -1)
+		// ピリオドはアンダースコアに置換
+		keyword = strings.Replace(keyword, " ", ".", -1)
+		// ハイフンはアンダースコアに置換
+		keyword = strings.Replace(keyword, " ", "-", -1)
+
 		keyword = convertToCamelCase(keyword)
 		output(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
 	}
-	output(fmt.Sprintf("}\n"))
+	output("}\n")
 
-	imageAssets := make([]string, 100, 500)
-	ScanDir(topDir, analyzer.ImageAssetAnalyzer, &imageAssets)
-	for _, asset := range imageAssets {
-		if asset == "" {
-			continue
+	if *enableImage {
+		imageAssets := make([]string, 100, 500)
+		ScanDir(*topDir, analyzer.ImageAssetAnalyzer, &imageAssets)
+		for _, asset := range imageAssets {
+			if asset == "" {
+				continue
+			}
+			output(fmt.Sprintf("imageAssets = \"%s\",\n", asset))
 		}
-		output(fmt.Sprintf("imageAssets = \"%s\",\n", asset))
 	}
 
-	colorAssets := make([]string, 100, 500)
-	ScanDir(topDir, analyzer.ColorAssetAnalyzer, &colorAssets)
-	for _, asset := range colorAssets {
-		if asset == "" {
-			continue
+	if *enableColor {
+		colorAssets := make([]string, 100, 500)
+		ScanDir(*topDir, analyzer.ColorAssetAnalyzer, &colorAssets)
+		for _, asset := range colorAssets {
+			if asset == "" {
+				continue
+			}
+			output(fmt.Sprintf("colorAssets = \"%s\",\n", asset))
 		}
-		output(fmt.Sprintf("colorAssets = \"%s\",\n", asset))
 	}
 }
 
