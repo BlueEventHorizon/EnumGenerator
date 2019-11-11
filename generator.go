@@ -19,15 +19,23 @@ func main() {
 		enumString string
 		enumImage  string
 		enumColor  string
+		useDefault bool
 		//	enableImage = flag.Bool("image", true, "enable scan for image assets")
 		//	enableColor = flag.Bool("color", true, "enable scan for color assets")
 	)
 
 	flag.StringVar(&topDir, "dir", "./", "dir to scan")
-	flag.StringVar(&enumString, "string", "LocalizableStrings", "enum name for Localizable.strings. If blank, disable output")
-	flag.StringVar(&enumImage, "image", "AppResource.ImageResource", "enum name for Image Assets. If blank, disable output")
-	flag.StringVar(&enumColor, "color", "AppResource.ColorResource", "enum name for Color Assets. If blank, disable output")
+	flag.StringVar(&enumString, "string", "", "enum name for Localizable.strings. If blank, disable output")
+	flag.StringVar(&enumImage, "image", "", "enum name for Image Assets. If blank, disable output")
+	flag.StringVar(&enumColor, "color", "", "enum name for Color Assets. If blank, disable output")
+	flag.BoolVar(&useDefault, "default", false, "if true, enable all output with default file name")
 	flag.Parse()
+
+	if useDefault {
+		enumString = "LocalizableStrings"
+		enumImage = "AppResource.ImageResource"
+		enumColor = "AppResource.ColorResource"
+	}
 
 	if enumString != "" {
 		stringOutput := new(Output)
