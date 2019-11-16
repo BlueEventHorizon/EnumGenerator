@@ -37,9 +37,10 @@ func main() {
 		enumColor = "AppResource.ColorResource"
 	}
 
+	// ---- LocalizableStrings ----
 	if enumString != "" {
 		stringOutput := new(Output)
-		stringOutput.Open(fmt.Sprintf("%s.swift", enumString))
+		stringOutput.Open(fmt.Sprintf("%s/%s.swift", topDir, enumString))
 		stringOutput.Print("import Foundation\n\n")
 		stringOutput.Print(fmt.Sprintf("enum %s: String {\n", enumString))
 
@@ -66,9 +67,10 @@ func main() {
 		fmt.Println("Skipped to scan Localizable.strings")
 	}
 
+	// ---- imageAssets ----
 	if enumImage != "" {
 		imageOutput := new(Output)
-		imageOutput.Open(enumImage)
+		imageOutput.Open(fmt.Sprintf("%s/%s", topDir, enumImage))
 		imageAssets := make([]string, 0, 500)
 		ScanDir(topDir, analyzer.ImageAssetAnalyzer, &imageAssets)
 		for _, asset := range imageAssets {
@@ -83,9 +85,10 @@ func main() {
 		fmt.Println("Skipped to scan Image Assets")
 	}
 
+	// ---- colorAssets ----
 	if enumColor != "" {
 		colorOutput := new(Output)
-		colorOutput.Open(enumColor)
+		colorOutput.Open(fmt.Sprintf("%s/%s", topDir, enumColor))
 		colorAssets := make([]string, 0, 500)
 		ScanDir(topDir, analyzer.ColorAssetAnalyzer, &colorAssets)
 		for _, asset := range colorAssets {
