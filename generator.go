@@ -61,6 +61,9 @@ func main() {
 		}
 		stringOutput.Print("}\n")
 		stringOutput.Close()
+		fmt.Printf("Completed to generate %s\n", enumString)
+	} else {
+		fmt.Println("Skipped to scan Localizable.strings")
 	}
 
 	if enumImage != "" {
@@ -75,6 +78,9 @@ func main() {
 			imageOutput.Print(fmt.Sprintf("imageAssets = \"%s\",\n", asset))
 		}
 		imageOutput.Close()
+		fmt.Printf("Completed to generate %s\n", enumImage)
+	} else {
+		fmt.Println("Skipped to scan Image Assets")
 	}
 
 	if enumColor != "" {
@@ -89,6 +95,9 @@ func main() {
 			colorOutput.Print(fmt.Sprintf("colorAssets = \"%s\",\n", asset))
 		}
 		colorOutput.Close()
+		fmt.Printf("Completed to generate %s\n", enumColor)
+	} else {
+		fmt.Println("Skipped to scan Color Assets")
 	}
 }
 
