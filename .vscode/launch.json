@@ -10,7 +10,9 @@
             "request": "launch",
             "mode": "auto",
             "program": "${fileDirname}",
-            "env": {},
+            "env": {
+                "GOOGLE_APPLICATION_CREDENTIALS": "/Users/k_terada/MyTranslator-9762cc0c4ee7.json"
+            },
             "args": [""]
         }
     ]
