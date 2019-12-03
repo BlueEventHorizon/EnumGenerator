@@ -61,10 +61,11 @@ func main() {
 			keyword = strings.Replace(keyword, "-", "_", -1)
 			// "はアンダースコアに置換
 			keyword = strings.Replace(keyword, "\"", "_", -1)
+			// ?はアンダースコアに置換
+			keyword = strings.Replace(keyword, "?", "_", -1)
 
 			keyword = convertToCamelCase(keyword)
-			//stringOutput.Print(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
-			stringOutput.Print("    case " + keyword + " = \"" + text + "\",\n")
+			stringOutput.Print(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
 		}
 		stringOutput.Print("}\n")
 		stringOutput.Close()
