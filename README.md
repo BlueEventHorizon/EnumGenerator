@@ -13,19 +13,19 @@ This command aims to replace R.Swift string definitions with simpler ones.
 ## Build 
 
 ```
-$ go build generator.go scanner.go
+$ go build enumgenerator.go scanner.go
 ```
 
 ## Usage
 
 ```
-$ generator "top directory for scan" "enum name" > "output faile name"
+$ enumgenerator "top directory for scan" "enum name" > "output faile name"
 ```
 
 if you don't add any option as below. senumer will automatically choose current directory as top directory for scan, and "LocalizableStrings" as enum name.
 
 ```
-$ generator > "output_directory"
+$ enumgenerator > "output_directory"
 ```
 
 
