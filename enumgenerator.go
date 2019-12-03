@@ -46,10 +46,10 @@ func main() {
 		stringOutput.Print("import Foundation\n\n")
 		stringOutput.Print(fmt.Sprintf("internal struct %s {\n", enumString))
 
-		texts := make([]string, 100, 500)
-		ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
-		for _, text := range texts {
-			contentText := text
+		infos := make([]analyzer.AnalyzedInfrmation, 0, 500)
+		ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &infos)
+		for _, element := range infos {
+			contentText := element.Description
 			if contentText == "" {
 				continue
 			}
@@ -108,13 +108,13 @@ func main() {
 	if enableImageResource {
 		imageOutput := new(Output)
 		imageOutput.Open(fmt.Sprintf("%s/%s", topDir, enumImage))
-		imageAssets := make([]string, 0, 500)
+		imageAssets := make([]analyzer.AnalyzedInfrmation, 0, 500)
 		ScanDir(topDir, analyzer.ImageAssetAnalyzer, &imageAssets)
-		for _, asset := range imageAssets {
-			if asset == "" {
+		for _, element := range imageAssets {
+			if element.Description == "" {
 				continue
 			}
-			imageOutput.Print(fmt.Sprintf("imageAssets = \"%s\",\n", asset))
+			imageOutput.Print(fmt.Sprintf("imageAssets = \"%s\",\n", element.Description))
 		}
 		imageOutput.Close()
 		fmt.Printf("Completed to generate %s\n", enumImage)
@@ -126,13 +126,13 @@ func main() {
 	if enableColorResource {
 		colorOutput := new(Output)
 		colorOutput.Open(fmt.Sprintf("%s/%s", topDir, enumColor))
-		colorAssets := make([]string, 0, 500)
+		colorAssets := make([]analyzer.AnalyzedInfrmation, 0, 500)
 		ScanDir(topDir, analyzer.ColorAssetAnalyzer, &colorAssets)
-		for _, asset := range colorAssets {
-			if asset == "" {
+		for _, element := range colorAssets {
+			if element.Description == "" {
 				continue
 			}
-			colorOutput.Print(fmt.Sprintf("colorAssets = \"%s\",\n", asset))
+			colorOutput.Print(fmt.Sprintf("colorAssets = \"%s\",\n", element.Description))
 		}
 		colorOutput.Close()
 		fmt.Printf("Completed to generate %s\n", enumColor)

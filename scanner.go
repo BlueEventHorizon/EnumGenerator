@@ -4,6 +4,8 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+
+	"./analyzer"
 )
 
 func isSkipDir(name string) bool {
@@ -34,7 +36,7 @@ func isSkipDir(name string) bool {
 	return false
 }
 
-func ScanDir(dir string, analyzer func(string, *[]string), texts *[]string) {
+func ScanDir(dir string, analyzer func(string, *[]analyzer.AnalyzedInfrmation), infos *[]analyzer.AnalyzedInfrmation) {
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		panic(err)
@@ -47,14 +49,14 @@ func ScanDir(dir string, analyzer func(string, *[]string), texts *[]string) {
 			if isSkipDir(name) {
 				continue
 			}
-			analyzer(path, texts)
-			ScanDir(filepath.Join(path), analyzer, texts)
+			analyzer(path, infos)
+			ScanDir(filepath.Join(path), analyzer, infos)
 			continue
 		}
 	}
 }
 
-func ScanFile(dir string, analyzer func(string, *[]string), texts *[]string) {
+func ScanFile(dir string, analyzer func(string, *[]analyzer.AnalyzedInfrmation), infos *[]analyzer.AnalyzedInfrmation) {
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		panic(err)
@@ -67,10 +69,10 @@ func ScanFile(dir string, analyzer func(string, *[]string), texts *[]string) {
 			if isSkipDir(name) {
 				continue
 			}
-			ScanFile(filepath.Join(path), analyzer, texts)
+			ScanFile(filepath.Join(path), analyzer, infos)
 			continue
 		}
 
-		analyzer(path, texts)
+		analyzer(path, infos)
 	}
 }

@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func LocalisableStringsAnalyzer(path string, texts *[]string) {
+func LocalisableStringsAnalyzer(path string, infos *[]AnalyzedInfrmation) {
 
 	// xxx.strings のみを解析
 	if !strings.HasSuffix(path, ".strings") {
@@ -48,14 +48,15 @@ func LocalisableStringsAnalyzer(path string, texts *[]string) {
 			}
 
 			var result bool = false
-			for _, element := range *texts {
-				if element == text {
+			for _, element := range *infos {
+				if element.Description == text {
 					result = true
 					break
 				}
 			}
 			if result == false {
-				*texts = append(*texts, text)
+				//*texts = append(*texts, text)
+				*infos = append(*infos, AnalyzedInfrmation{path, 0, text})
 			}
 		}
 	}
