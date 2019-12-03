@@ -45,12 +45,13 @@ func main() {
 		texts := make([]string, 100, 500)
 		ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
 		for _, text := range texts {
-			if text == "" {
+			contentText := text
+			if contentText == "" {
 				continue
 			}
-			keyword, err := translator.TranslateText("en", text)
+			keyword, err := translator.TranslateText("en", contentText)
 			if err != nil {
-				keyword = text
+				keyword = ""
 			}
 
 			// 空白はアンダースコアに置換
@@ -65,7 +66,7 @@ func main() {
 			keyword = strings.Replace(keyword, "?", "_", -1)
 
 			keyword = convertToCamelCase(keyword)
-			stringOutput.Print(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
+			stringOutput.Print(fmt.Sprintf("    case %s = \"%s\"\n", keyword, contentText))
 		}
 		stringOutput.Print("}\n")
 		stringOutput.Close()
@@ -112,6 +113,10 @@ func main() {
 }
 
 func convertToCamelCase(text string) string {
+	if text == "" {
+		return text
+	}
+
 	var keyword string
 	var foundUnderScore = false
 	for i := 0; i < len(text); i++ {
@@ -141,6 +146,7 @@ var fd *os.File
 var err error
 
 func (t Output) Open(path string) {
+	return
 	if path == "" {
 		return
 	}
@@ -155,6 +161,8 @@ func (t Output) Open(path string) {
 }
 
 func (t Output) Print(text string) {
+	fmt.Printf(text)
+	return
 	if fd != nil {
 		fd.WriteString(text)
 	} else {
@@ -163,6 +171,7 @@ func (t Output) Print(text string) {
 }
 
 func (t Output) Close() {
+	return
 	if fd == nil {
 		return
 	}
