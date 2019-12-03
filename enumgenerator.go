@@ -16,13 +16,14 @@ func main() {
 	// https://qiita.com/Yaruki00/items/7edc04720a24e71abfa2
 
 	var (
-		topDir                   string
-		enableLocalizableStrings bool
-		enableImageResource      bool
-		enableColorResource      bool
-		enumString               string
-		enumImage                string
-		enumColor                string
+		topDir                      string
+		enableLocalizableStrings    bool
+		enableImageResource         bool
+		enableColorResource         bool
+		enumString                  string
+		enumImage                   string
+		enumColor                   string
+		localizableStringsExtension string
 	)
 
 	flag.StringVar(&topDir, "d", "./", "dir to scan")
@@ -33,6 +34,9 @@ func main() {
 	flag.StringVar(&enumString, "enumStringName", "LocalizableStrings", "enum name for Localizable.strings. If blank, disable output")
 	flag.StringVar(&enumImage, "enumImageName", "AppResource.ImageResource", "enum name for Image Assets. If blank, disable output")
 	flag.StringVar(&enumColor, "enumColorName", "AppResource.ColorResource", "enum name for Color Assets. If blank, disable output")
+
+	flag.StringVar(&localizableStringsExtension, "ext", "", "You can add some extension after words")
+
 	flag.Parse()
 
 	// ---- LocalizableStrings ----
@@ -40,7 +44,7 @@ func main() {
 		stringOutput := new(Output)
 		stringOutput.Open(fmt.Sprintf("%s/%s.swift", topDir, enumString))
 		stringOutput.Print("import Foundation\n\n")
-		stringOutput.Print(fmt.Sprintf("enum %s: String {\n", enumString))
+		stringOutput.Print(fmt.Sprintf("internal struct %s {\n", enumString))
 
 		texts := make([]string, 100, 500)
 		ScanFile(topDir, analyzer.LocalisableStringsAnalyzer, &texts)
@@ -91,7 +95,7 @@ func main() {
 			keyword = strings.Replace(keyword, ";", "", -1)
 
 			keyword = convertToCamelCase(keyword)
-			stringOutput.Print(fmt.Sprintf("    case %s = \"%s\"\n", keyword, contentText))
+			stringOutput.Print(fmt.Sprintf("    static let %s = \"%s\"%s\n", keyword, contentText, localizableStringsExtension))
 		}
 		stringOutput.Print("}\n")
 		stringOutput.Close()
@@ -147,6 +151,10 @@ func convertToCamelCase(text string) string {
 	for i := 0; i < len(text); i++ {
 		letter := text[i : i+1]
 		if letter == "_" {
+			// max 40 letters
+			if i > 40 {
+				break
+			}
 			foundUnderScore = true
 			continue
 		}
