@@ -8,7 +8,13 @@ This is a Git repository for commands that convert `Localizable.strings` files, 
 
 This command aims to replace R.Swift string definitions with simpler ones.
 
+## Import
 
+```
+$ go get -u cloud.google.com/go/translate
+$ go get -u golang.org/x/text/language
+$ go get -u google.golang.org/api/option
+```
 
 ## Build 
 

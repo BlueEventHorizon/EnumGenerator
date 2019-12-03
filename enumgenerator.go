@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"./analyzer"
+	"./translator"
 )
 
 func main() {
@@ -22,9 +23,6 @@ func main() {
 		enumString               string
 		enumImage                string
 		enumColor                string
-
-		//	enableImage = flag.Bool("image", true, "enable scan for image assets")
-		//	enableColor = flag.Bool("color", true, "enable scan for color assets")
 	)
 
 	flag.StringVar(&topDir, "d", "./", "dir to scan")
@@ -50,15 +48,23 @@ func main() {
 			if text == "" {
 				continue
 			}
+			keyword, err := translator.TranslateText("en", text)
+			if err != nil {
+				keyword = text
+			}
+
 			// 空白はアンダースコアに置換
-			keyword := strings.Replace(text, " ", "_", -1)
-			// ピリオドはアンダースコアに置換
-			keyword = strings.Replace(keyword, " ", ".", -1)
-			// ハイフンはアンダースコアに置換
-			keyword = strings.Replace(keyword, " ", "-", -1)
+			keyword = strings.Replace(keyword, " ", "_", -1)
+			// .はアンダースコアに置換
+			keyword = strings.Replace(keyword, ".", "_", -1)
+			// -はアンダースコアに置換
+			keyword = strings.Replace(keyword, "-", "_", -1)
+			// "はアンダースコアに置換
+			keyword = strings.Replace(keyword, "\"", "_", -1)
 
 			keyword = convertToCamelCase(keyword)
-			stringOutput.Print(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
+			//stringOutput.Print(fmt.Sprintf("    case %s = \"%s\",\n", keyword, text))
+			stringOutput.Print("    case " + keyword + " = \"" + text + "\",\n")
 		}
 		stringOutput.Print("}\n")
 		stringOutput.Close()
@@ -121,6 +127,10 @@ func convertToCamelCase(text string) string {
 		}
 	}
 
+	head := keyword[:1]
+	rest := keyword[1:]
+	keyword = strings.ToLower(head) + rest
+
 	return keyword
 }
 
@@ -130,12 +140,12 @@ var fd *os.File
 var err error
 
 func (t Output) Open(path string) {
-
 	if path == "" {
 		return
 	}
 
 	fd, err = os.Create(path)
+	//fd, err = os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		fmt.Println(err)
 	}
