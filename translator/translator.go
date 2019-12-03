@@ -67,7 +67,8 @@ func TranslateText(targetLanguage, text string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return resp[0].Text, nil
+	result := resp[0].Text
+	return result, nil
 }
 
 // [END translate_translate_text]
