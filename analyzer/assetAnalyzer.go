@@ -33,7 +33,7 @@ func scanAssetDir(dir string, assetKey string, texts *[]string) {
 		if file.IsDir() {
 			if strings.HasSuffix(name, assetKey) {
 				index := strings.Index(path, ".xcassets")
-				if index > 0 {
+				if index >= 0 {
 					text := path[index+len(".xcassets"):]
 					*texts = append(*texts, text)
 				}

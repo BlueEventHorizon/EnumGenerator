@@ -32,15 +32,16 @@ func LocalisableStringsAnalyzer(path string, texts *[]string) {
 
 		text := sc.Text()
 		text = strings.TrimSpace(text)
+		// 後ろにコメントが付いていれば削除する。
 		index := strings.Index(text, "//")
-		if index > 0 {
+		if index >= 0 {
 			text = text[:index]
 			text = strings.TrimSpace(text)
 		}
 
 		if strings.HasSuffix(text, ";") {
 			index := strings.Index(text, "=")
-			if index > 0 {
+			if index >= 0 {
 				text = text[:index]
 				text = strings.TrimSpace(text)
 				text = strings.Trim(text, "\"")
