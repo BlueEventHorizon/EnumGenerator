@@ -15,30 +15,30 @@ func main() {
 	// https://qiita.com/Yaruki00/items/7edc04720a24e71abfa2
 
 	var (
-		topDir     string
-		enumString string
-		enumImage  string
-		enumColor  string
-		useDefault bool
+		topDir                   string
+		enableLocalizableStrings bool
+		enableImageResource      bool
+		enableColorResource      bool
+		enumString               string
+		enumImage                string
+		enumColor                string
+
 		//	enableImage = flag.Bool("image", true, "enable scan for image assets")
 		//	enableColor = flag.Bool("color", true, "enable scan for color assets")
 	)
 
-	flag.StringVar(&topDir, "dir", "./", "dir to scan")
-	flag.StringVar(&enumString, "string", "", "enum name for Localizable.strings. If blank, disable output")
-	flag.StringVar(&enumImage, "image", "", "enum name for Image Assets. If blank, disable output")
-	flag.StringVar(&enumColor, "color", "", "enum name for Color Assets. If blank, disable output")
-	flag.BoolVar(&useDefault, "default", false, "if true, enable all output with default file name")
+	flag.StringVar(&topDir, "d", "./", "dir to scan")
+	flag.BoolVar(&enableLocalizableStrings, "s", true, "enable generate LocalizableStrings")
+	flag.BoolVar(&enableImageResource, "i", false, "enable generate ImageResource")
+	flag.BoolVar(&enableColorResource, "c", false, "enable generate ColorResource")
+
+	flag.StringVar(&enumString, "enumStringName", "LocalizableStrings", "enum name for Localizable.strings. If blank, disable output")
+	flag.StringVar(&enumImage, "enumImageName", "AppResource.ImageResource", "enum name for Image Assets. If blank, disable output")
+	flag.StringVar(&enumColor, "enumColorName", "AppResource.ColorResource", "enum name for Color Assets. If blank, disable output")
 	flag.Parse()
 
-	if useDefault {
-		enumString = "LocalizableStrings"
-		enumImage = "AppResource.ImageResource"
-		enumColor = "AppResource.ColorResource"
-	}
-
 	// ---- LocalizableStrings ----
-	if enumString != "" {
+	if enableLocalizableStrings {
 		stringOutput := new(Output)
 		stringOutput.Open(fmt.Sprintf("%s/%s.swift", topDir, enumString))
 		stringOutput.Print("import Foundation\n\n")
@@ -68,7 +68,7 @@ func main() {
 	}
 
 	// ---- imageAssets ----
-	if enumImage != "" {
+	if enableImageResource {
 		imageOutput := new(Output)
 		imageOutput.Open(fmt.Sprintf("%s/%s", topDir, enumImage))
 		imageAssets := make([]string, 0, 500)
@@ -86,7 +86,7 @@ func main() {
 	}
 
 	// ---- colorAssets ----
-	if enumColor != "" {
+	if enableColorResource {
 		colorOutput := new(Output)
 		colorOutput.Open(fmt.Sprintf("%s/%s", topDir, enumColor))
 		colorAssets := make([]string, 0, 500)
