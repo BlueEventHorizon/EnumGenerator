@@ -51,3 +51,4 @@ generator
 AppResource.ColorResource
 AppResource.ImageResource
 LocalizableStrings.swift
+enumgenerator
