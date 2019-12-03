@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  EnumGeneratorTest
+
+  Created by k2moons on 2019/11/04.
+  Copyright © 2019 k2moons. All rights reserved.
+*/
+
+"clode_comment" = "コメント";  // Comment
+"delete something" = "削除する";
+"cancel" = "キャンセル";
+"OK" = "OK";
+
+"_Only_this_" = "Only this";
+
+"ダイアログを閉じる" = "ダイアログを閉じる";
+
