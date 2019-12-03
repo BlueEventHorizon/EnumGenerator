@@ -6,8 +6,12 @@
   Copyright © 2019 k2moons. All rights reserved.
 */
 
-"clode_window" = "閉じる";
+"clode_comment" = "コメント";  // Comment
 "delete something" = "削除する";
 "cancel" = "キャンセル";
 "OK" = "OK";
+
 "_Only_this_" = "Only this";
+
+"ダイアログを閉じる" = "ダイアログを閉じる";
+
