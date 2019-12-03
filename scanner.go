@@ -28,6 +28,9 @@ func isSkipDir(name string) bool {
 		//fmt.Printf("// ---------------------------------------- Pods\n")
 		return true
 	}
+	if name == ".git" {
+		return true
+	}
 	return false
 }
 
