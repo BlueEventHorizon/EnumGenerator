@@ -16,6 +16,11 @@ $ go get -u golang.org/x/text/language
 $ go get -u google.golang.org/api/option
 ```
 
+## Credential
+
+If you'd like to use Google Translate API, 
+Prelase set the environment variable GOOGLE_APPLICATION_CREDENTIALS to the file path of the JSON file that contains the Google service account key.
+
 ## Build 
 
 ```
