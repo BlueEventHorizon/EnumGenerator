@@ -61,7 +61,7 @@ func main() {
 			replacer := strings.NewReplacer(" ", "_", ".", "_", "+", "_", "-", "_")
 			keyword = replacer.Replace(keyword)
 
-			replacer = strings.NewReplacer("\"", "", "?", "", "!", "", "“", "", ":", "", "[", "", "]", "", "`", "", "'", "")
+			replacer = strings.NewReplacer("\"", "", "?", "", "!", "", "“", "", "”", "", ":", "", "[", "", "]", "", "`", "", "'", "")
 			keyword = replacer.Replace(keyword)
 
 			replacer = strings.NewReplacer("#", "", "$", "", "%", "", "=", "", "@", "", "\\", "", "(", "", ")", "", ",", "", "/", "")
