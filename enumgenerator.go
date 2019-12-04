@@ -58,40 +58,18 @@ func main() {
 				keyword = ""
 			}
 
-			// 空白はアンダースコアに置換
-			keyword = strings.Replace(keyword, " ", "_", -1)
-			// .はアンダースコアに置換
-			keyword = strings.Replace(keyword, ".", "_", -1)
-			// +-はアンダースコアに置換
-			keyword = strings.Replace(keyword, "+", "_", -1)
-			keyword = strings.Replace(keyword, "-", "_", -1)
-			// "は消去
-			keyword = strings.Replace(keyword, "\"", "", -1)
-			// ?は消去
-			keyword = strings.Replace(keyword, "?", "", -1)
-			// !は消去
-			keyword = strings.Replace(keyword, "!", "", -1)
-			keyword = strings.Replace(keyword, "“", "", -1)
-			keyword = strings.Replace(keyword, "”", "", -1)
-			keyword = strings.Replace(keyword, ":", "", -1)
-			keyword = strings.Replace(keyword, "[", "", -1)
-			keyword = strings.Replace(keyword, "]", "", -1)
-			keyword = strings.Replace(keyword, "`", "", -1)
-			keyword = strings.Replace(keyword, "'", "", -1)
-			keyword = strings.Replace(keyword, "#", "", -1)
-			keyword = strings.Replace(keyword, "$", "", -1)
-			keyword = strings.Replace(keyword, "%", "", -1)
-			keyword = strings.Replace(keyword, "=", "", -1)
-			keyword = strings.Replace(keyword, "@", "", -1)
-			keyword = strings.Replace(keyword, "\\", "", -1)
-			keyword = strings.Replace(keyword, "(", "", -1)
-			keyword = strings.Replace(keyword, ")", "", -1)
-			keyword = strings.Replace(keyword, ",", "", -1)
-			keyword = strings.Replace(keyword, "/", "", -1)
+			replacer := strings.NewReplacer(" ", "_", ".", "_", "+", "_", "-", "_")
+			keyword = replacer.Replace(keyword)
 
-			keyword = strings.Replace(keyword, "&39;", "", -1)
-			keyword = strings.Replace(keyword, "&amp;", "", -1)
-			keyword = strings.Replace(keyword, "&quot;", "", -1)
+			replacer = strings.NewReplacer("\"", "", "?", "", "!", "", "“", "", ":", "", "[", "", "]", "", "`", "", "'", "")
+			keyword = replacer.Replace(keyword)
+
+			replacer = strings.NewReplacer("#", "", "$", "", "%", "", "=", "", "@", "", "\\", "", "(", "", ")", "", ",", "", "/", "")
+			keyword = replacer.Replace(keyword)
+
+			replacer = strings.NewReplacer("&39;", "", "&amp;", "", "&quot;", "")
+			keyword = replacer.Replace(keyword)
+
 			keyword = strings.Replace(keyword, ";", "", -1)
 
 			keyword = convertToCamelCase(keyword)
