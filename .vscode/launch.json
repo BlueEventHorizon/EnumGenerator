@@ -11,7 +11,7 @@
             "mode": "auto",
             "program": "${fileDirname}",
             "env": {
-                "GOOGLE_APPLICATION_CREDENTIALS": "/Users/k_terada/MyTranslator-9762cc0c4ee7.json"
+                "GOOGLE_APPLICATION_CREDENTIALS": "${env:HOME}/MyTranslator-9762cc0c4ee7.json"
             },
             "args": [""]
         }
